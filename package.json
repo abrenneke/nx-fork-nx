@@ -1,6 +1,6 @@
 {
   "name": "nx",
-  "version": "4.3.6",
+  "version": "14.3.6",
   "description": "Smart, Fast and Extensible Build System",
   "repository": {
     "type": "git",
@@ -31,8 +31,8 @@
   },
   "homepage": "https://nx.dev",
   "dependencies": {
-    "@nrwl/cli": "^4.3.6",
-    "@nrwl/tao": "^4.3.6",
+    "@nrwl/cli": "^14.3.6",
+    "@nrwl/tao": "^14.3.6",
     "@parcel/watcher": "2.0.4",
     "chalk": "4.1.0",
     "chokidar": "^3.5.1",
