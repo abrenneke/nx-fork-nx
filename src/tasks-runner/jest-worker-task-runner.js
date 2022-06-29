@@ -45,30 +45,28 @@ class JestWorkerTaskRunner {
                     output_1.output.logCommand((0, utils_1.getPrintableCommandArgsForTask)(task).join(' '));
                     output_1.output.addNewline();
                 }
-                const result = yield this.worker.executeTask(task, {
+                const promise = this.worker.executeTask(task, {
                     workspaceRoot: this.workspaceRoot,
                     outputPath: temporaryOutputPath,
                     streamOutput,
                     captureStderr: this.options.captureStderr,
                     projectGraph: this.projectGraph,
-                    // Worker threads have trouble serializing these functions but forks don't?
-                    onStdout: useWorkerThreads
-                        ? undefined
-                        : (chunk) => {
-                            if (streamOutput) {
-                                process.stdout.write((0, add_command_prefix_1.addCommandPrefixIfNeeded)(task.target.project, chunk, 'utf-8')
-                                    .content);
-                            }
-                        },
-                    onStderr: useWorkerThreads
-                        ? undefined
-                        : (chunk) => {
-                            if (streamOutput) {
-                                process.stderr.write((0, add_command_prefix_1.addCommandPrefixIfNeeded)(task.target.project, chunk, 'utf-8')
-                                    .content);
-                            }
-                        },
                 });
+                promise.UNSTABLE_onCustomMessage(([msg, data]) => {
+                    if (msg === 'stdout') {
+                        if (streamOutput) {
+                            process.stdout.write((0, add_command_prefix_1.addCommandPrefixIfNeeded)(task.target.project, data, 'utf-8')
+                                .content);
+                        }
+                    }
+                    else if (msg === 'stderr') {
+                        if (streamOutput) {
+                            process.stderr.write((0, add_command_prefix_1.addCommandPrefixIfNeeded)(task.target.project, data, 'utf-8')
+                                .content);
+                        }
+                    }
+                });
+                const result = yield promise;
                 code = result.statusCode;
                 error = result.error;
             }

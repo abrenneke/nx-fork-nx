@@ -5,6 +5,7 @@ const tslib_1 = require("tslib");
 const run_1 = require("../src/command-line/run");
 const fs_1 = require("fs");
 const add_command_prefix_1 = require("../src/utils/add-command-prefix");
+const jest_worker_1 = require("jest-worker");
 setUpOutputWatching();
 process.env.NX_CLI_SET = 'true';
 let state;
@@ -56,7 +57,6 @@ function setUpOutputWatching() {
     const stdoutWrite = process.stdout._write;
     const stderrWrite = process.stderr._write;
     process.stdout._write = (chunk, encoding, callback) => {
-        var _a, _b;
         state === null || state === void 0 ? void 0 : state.onlyStdout.push(chunk);
         if (state === null || state === void 0 ? void 0 : state.outputPath) {
             if (!state.logFileHandle) {
@@ -66,7 +66,7 @@ function setUpOutputWatching() {
         }
         if (state === null || state === void 0 ? void 0 : state.streamOutput) {
             const updatedChunk = (0, add_command_prefix_1.addCommandPrefixIfNeeded)(state.currentTask.target.project, chunk, encoding);
-            (_b = (_a = state.currentOptions) === null || _a === void 0 ? void 0 : _a.onStdout) === null || _b === void 0 ? void 0 : _b.call(_a, chunk);
+            (0, jest_worker_1.messageParent)(['stdout', chunk]);
             stdoutWrite.apply(process.stdout, [
                 updatedChunk.content,
                 updatedChunk.encoding,
@@ -78,7 +78,6 @@ function setUpOutputWatching() {
         }
     };
     process.stderr._write = (chunk, encoding, callback) => {
-        var _a, _b;
         if (state === null || state === void 0 ? void 0 : state.outputPath) {
             if (!state.logFileHandle) {
                 state.logFileHandle = (0, fs_1.openSync)(state.outputPath, 'w');
@@ -87,7 +86,7 @@ function setUpOutputWatching() {
         }
         if (state === null || state === void 0 ? void 0 : state.streamOutput) {
             const updatedChunk = (0, add_command_prefix_1.addCommandPrefixIfNeeded)(state.currentTask.target.project, chunk, encoding);
-            (_b = (_a = state.currentOptions) === null || _a === void 0 ? void 0 : _a.onStderr) === null || _b === void 0 ? void 0 : _b.call(_a, chunk);
+            (0, jest_worker_1.messageParent)(['stderr', chunk]);
             stderrWrite.apply(process.stderr, [
                 updatedChunk.content,
                 updatedChunk.encoding,

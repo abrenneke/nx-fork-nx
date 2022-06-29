@@ -6,8 +6,6 @@ interface ExecuteTaskOptions {
     streamOutput?: boolean;
     captureStderr?: boolean;
     projectGraph?: ProjectGraph;
-    onStdout?: (chunk: string) => void;
-    onStderr?: (chunk: string) => void;
 }
 export declare function executeTask(task: Task, options: ExecuteTaskOptions): Promise<{
     statusCode: number;
