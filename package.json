@@ -1,6 +1,6 @@
 {
   "name": "nx",
-  "version": "0.0.1",
+  "version": "14.4.0",
   "description": "Smart, Fast and Extensible Build System",
   "repository": {
     "type": "git",
@@ -31,6 +31,8 @@
   },
   "homepage": "https://nx.dev",
   "dependencies": {
+    "@nrwl/cli": "14.4.0",
+    "@nrwl/tao": "14.4.0",
     "@parcel/watcher": "2.0.4",
     "chalk": "4.1.0",
     "chokidar": "^3.5.1",
@@ -45,8 +47,9 @@
     "fs-extra": "^10.1.0",
     "glob": "7.1.4",
     "ignore": "^5.0.4",
-    "jsonc-parser": "3.0.0",
     "jest-worker": "^28.1.1",
+    "js-yaml": "4.1.0",
+    "jsonc-parser": "3.0.0",
     "minimatch": "3.0.5",
     "npm-run-path": "^4.0.1",
     "open": "^8.4.0",
@@ -58,8 +61,7 @@
     "tslib": "^2.3.0",
     "v8-compile-cache": "2.3.0",
     "yargs": "^17.4.0",
-    "yargs-parser": "21.0.1",
-    "js-yaml": "4.1.0"
+    "yargs-parser": "21.0.1"
   },
   "peerDependencies": {
     "@swc-node/register": "^1.4.2",
@@ -104,5 +106,6 @@
   },
   "executors": "./executors.json",
   "main": "./bin/nx.js",
-  "typings": "./bin/nx.d.ts"
+  "typings": "./bin/nx.d.ts",
+  "gitHead": "5c624d275a96900bdc99fdbe4c1be3d9b5fe0e1e"
 }
